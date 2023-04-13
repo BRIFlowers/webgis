@@ -1,0 +1,96 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>
+      Intro to MapView - Create a 2D map | Sample | ArcGIS Maps SDK for
+      JavaScript 4.26
+    </title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.26/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.26/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/Legend",
+        "esri/widgets/ScaleBar",
+        "esri/widgets/Search",
+        "esri/widgets/LayerList"
+        
+      ], (Map, MapView, FeatureLayer, Legend, ScaleBar, Search, LayerList) => {
+        const layer = new FeatureLayer({
+          url: "https://www.geosceneonline.cn/server/rest/services/Hosted/福建省5A级风景区/FeatureServer"
+        });
+
+        const map = new Map({
+          basemap: "streets",
+          layers: [layer]
+        });
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 7.5,
+          center: [119.5, 26.4] // longitude, latitude
+        });
+
+        let legend = new Legend({
+          view: view
+          });
+        view.ui.add(legend, "bottom-right");
+
+        let scaleBar = new ScaleBar({
+          view: view,
+          style:"ruler",
+          unit:"metric"
+        });
+
+        view.ui.add(scaleBar, {
+          position: "bottom-left"
+        });
+        
+        let layerList = new LayerList({
+  view: view
+});
+
+view.ui.add(layerList, {
+  position: "top-right"
+});
+        
+        const searchWidget = new Search({
+       view: view
+        });
+        view.ui.add(searchWidget, {
+        position: "top-right",
+         index: 2
+        });
+        
+
+        
+        
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
